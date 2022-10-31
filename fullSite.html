@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TimerX</title>
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+    <style>
+.timer-config {
+    transition: opacity 500ms;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+}
+.timer-config input[type="radio"] {
+    display: none;
+}
+.timer-box-cf {
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    background-color: #DAF7A6;
+    position: relative;
+    transition: background-color 100ms;
+}
+.timer-box-cf .name-cf {
+    padding: 45px 0 0 0;
+}
+.name-cf input {
+    text-align: center;
+    font-size: 17px;
+    border: 1px solid #999;
+    border-radius: 3px;
+}
+.timer-box-cf .time-cf {
+    padding: 10px 0 5px;
+}
+.timer-box-cf .time-cf input {
+    width: 75px;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.timer-box-cf .buttons-cf {
+    padding: 25px 90px 15px;
+    display: flex;
+    column-gap: 15px;
+}
+.timer-box-cf .buttons-cf button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    background-color: #ddd;
+    transition: background-color 100ms, transform 100ms;
+    border: none;
+}
+button.stop-cf:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 10px red;
+}
+button.pause-cf:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    box-shadow: 0 0 10px orange;
+}
+.timer-box-cf .buttons-cf button:active {
+    transform: scale(0.95);
+}
+button.play-cf:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px green;
+}
+.timer-box-cf .timer-colors {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    column-gap: 5px;
+}
+.timer-colors label {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+}
+.timer-colors label:nth-child(1) {
+    background-color: #DAF7A6;
+}
+.timer-colors label:nth-child(2) {
+    background-color: #FAB723;
+}
+.timer-colors label:nth-child(3) {
+    background-color: #FF5733;
+}
+.timer-colors label:nth-child(4) {
+    background-color: #B50027;
+}
+.timer-colors label:nth-child(5) {
+    background-color: #900C3F;
+}
+#c-1:checked ~ .timer-box-cf {
+    background-color: #DAF7A6;
+}
+#c-2:checked ~ .timer-box-cf {
+    background-color: #FAB723;
+}
+#c-3:checked ~ .timer-box-cf {
+    background-color: #FF5733;
+}
+#c-4:checked ~ .timer-box-cf {
+    background-color: #B50027;
+}
+#c-5:checked ~ .timer-box-cf {
+    background-color: #900C3F;
+}
+.config-close {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: transform 100ms;
+}
+.config-close:hover {
+    transform: scale(1.3);
+}
+.config-close:active {
+    transform: scale(1.25);
+}
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+}
+.main {
+    height: 100%;
+    position: relative;
+    min-height: 335px;
+}
+.content {
+    height: 80%;
+    display: flex;
+    column-gap: 15px;
+    padding: 25px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: auto;
+    row-gap: 15px;
+    background-color: #333;
+}
+.content .timer-box {
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    transition: background-color 300ms;
+    overflow: hidden;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+}
+.timer-box .name {
+    padding: 5px 0;
+    font-size: 17px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    overflow: scroll;
+}
+.timer-box .time {
+    font-size: 30px;
+    padding: 10px 0 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.timer-box .buttons {
+    padding: 25px 75px 15px;
+    display: flex;
+    column-gap: 15px;
+}
+.timer-box .buttons button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    transition: background-color 100ms, transform 100ms;
+    background-color: #ddd;
+    border: none;
+}
+button.stop:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 10px red;
+}
+button.pause:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    box-shadow: 0 0 10px orange;
+}
+.timer-box .buttons button:active {
+    transform: scale(0.95);
+}
+button.play:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px lime;
+}
+.footer {
+    height: 20%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: black;
+    justify-content: space-between;
+    /*box-shadow: 0 0 15px black*/
+    font-size: 14px;
+}
+.footer .add-timer {
+    padding: 20px 45px;
+    border-radius: 5px;
+    transition: background-color 100ms, transform 100ms;
+    background-color: #999;
+    color: white;
+    max-width: 47%;
+    max-height: 80%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer .add-timer:hover {
+    background-color: #333;
+    box-shadow: 0 0 5px white;
+}
+.footer .add-timer:active {
+    transform: scale(0.95);
+}
+#config {
+    display: none;
+}
+#config:checked + .timer-config {
+    visibility: visible;
+    opacity: 1;
+}
+
+.footer .save-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    max-width: 47%;
+}
+.save-box > div {
+    width: 100%;
+    height: 45%;
+    background-color: purple;
+    border-radius: 5px;
+    color: white;
+    user-select: none;
+    transition: transform 100ms;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.save-box > div:hover {
+    transform: scale(1.025);
+}
+.save-box > div:active {
+    transform: scale(0.975);
+}
+.save-it[data-checked] {
+    background-color: green;
+}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <div class="content">
+        </div>
+        <div class="footer">
+            <div class="save-box">
+                <div class="get-save">
+                    Programımı Getir
+                </div>
+                <div class="save-it">
+                    Görünümü Kaydet
+                </div>
+            </div>
+            <label class="add-timer" for="config">➕ Zamanlayıcı Ekle</label>
+        </div>
+        <input id="config" type="checkbox">
+        <div class="timer-config">
+            <input name="color" id="c-1" type="radio">
+            <input name="color" id="c-2" type="radio">
+            <input name="color" id="c-3" type="radio">
+            <input name="color" id="c-4" type="radio">
+            <input name="color" id="c-5" type="radio">
+            <div class="timer-box-cf">
+                <div class="name-cf">
+                    <input placeholder="Timer Name" value="" class="current-name" type="text">
+                </div>
+                <div class="time-cf">
+                    <input title="saat" max="18" min="0" value="0" class="hour" type="number">
+                    <input title="dakika" max="59" min="0" value="0" class="minute" type="number">
+                    <input title="saniye" max="59" min="0" value="0" class="second" type="number">
+                </div>
+                <div class="buttons-cf">
+                    <button title="Reset" class="stop-cf reset">🗑️</button>
+                    <button title="Hemen Başlamasın" class="pause-cf">⏸️</button>
+                    <button title="Başla!" class="play-cf add-button">▶</button>
+                </div>
+                <div class="timer-colors">
+                    <label data-class="color" data-color="#DAF7A6" for="c-1" class="color-1"></label>
+                    <label data-class="color" data-color="#FAB723" for="c-2" class="color-2"></label>
+                    <label data-class="color" data-color="#FF5733" for="c-3" class="color-3"></label>
+                    <label data-class="color" data-color="#B50027" for="c-4" class="color-4"></label>
+                    <label data-class="color" data-color="#900C3F" for="c-5" class="color-5"></label>
+                </div>
+                <label for="config" class="config-close"></label>
+            </div>
+        </div>
+    </div>
+    <script>
+let plusButton = document.querySelector('.add-timer');
+let addButton = document.querySelector('.play-cf');
+let currentName = document.querySelector('.current-name');
+let currentHour = document.querySelector('.hour');
+let currentMinute = document.querySelector('.minute');
+let currentSecond = document.querySelector('.second');
+let content = document.querySelector('.content');
+let colorSelector = document.querySelector('.timer-colors');
+let resetButton = document.querySelector('.reset');
+let pauseCf = document.querySelector('.pause-cf');
+let saveIt = document.querySelector('.save-it')
+let getSave = document.querySelector('.get-save')
+let config = document.getElementById('config');
+let timerNumber = 1;
+let timers = [];
+let timers2 = [];
+let defColor = document.querySelector('.color-1');
+let defColorTo = document.querySelector('#c-1');
+defColorTo.checked = true;
+let currentColor = defColor.getAttribute('data-color');
+let isPausedStart = false;
+let isSaved = false;
+
+currentName.style.border = "1px solid #999";
+
+addButton.addEventListener('click', addTimer);
+content.addEventListener('click', contentClick);
+resetButton.addEventListener('click', resetBoxes);
+saveIt.addEventListener('click', saveStatus);
+getSave.addEventListener('click', getSaved);
+pauseCf.addEventListener('click', () => {
+    if (isPausedStart==false) {
+        pauseCf.style.backgroundColor = "rgba(255, 255, 0, 0.7)";
+        pauseCf.style.boxShadow = "0 0 10px orange";
+        isPausedStart = true;
+    }
+    else {
+        pauseCf.style += "background-color: #ddd";
+        pauseCf.style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+        isPausedStart = false;
+    }
+})
+colorSelector.addEventListener('click', (e) => {
+    let target = e.target;
+    if (target.getAttribute('data-class') == 'color')
+    {
+        currentColor = target.getAttribute('data-color');
+    }
+})
+plusButton.addEventListener('click', () => {
+    pauseCf.style += "background-color: #ddd";
+    pauseCf.style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+    isPausedStart = false;
+    defColorTo.checked = true;
+})
+
+if(window.innerWidth < 400) {
+    content.style.justifyContent = "center";
+}
+
+setInterval(loop, 1000);
+
+function addTimer() {
+    if (currentName.value == '' || currentName.value.indexOf(',')!=-1) {
+        currentName.style.border = "1px solid red";
+        return "";
+    }
+    
+    let alreadyNames = document.querySelectorAll('.timer-box .name');
+    let alreadyNameList = []
+    alreadyNames.forEach(y => {alreadyNameList.push(y.getAttribute('title'))})
+    if (alreadyNameList.indexOf(currentName.value)!=-1) {
+        currentName.style.border = "1px solid red";
+        return "";
+    }
+    currentHour.value = currentHour.value == '' ? 0:parseInt(currentHour.value)
+    currentMinute.value = currentMinute.value == '' ? 0:parseInt(currentMinute.value)
+    currentSecond.value = currentSecond.value == '' ? 0:parseInt(currentSecond.value)
+    currentName.style.border = "1px solid #999";
+    let html = `
+        <div data-number="${timerNumber}" class="timer-box">
+            <div title="${currentName.value}" class="name">
+                ${currentName.value.length<27?currentName.value:currentName.value.substring(0,27)+"..."}
+            </div>
+            <div data-number="${timerNumber}" class="time">
+                <span class="hour">${double(currentHour.value)}</span>.<span class="minute">${double(currentMinute.value)}</span>.<span class="second">${double(currentSecond.value)}</span>
+            </div>
+            <div class="buttons">
+                <button title="Bitir" data-number="${timerNumber}" class="stop">🗑️</button>
+                <button title="Durdur" data-number="${timerNumber}" class="pause">⏸️</button>
+                <button title="Devam" data-number="${timerNumber}" class="play">▶</button>
+            </div>
+        </div>
+`
+    let hour = parseInt(currentHour.value);
+    let minute = parseInt(currentMinute.value);
+    let second = parseInt(currentSecond.value);
+    let totalSeconds = hour*60*60 + minute*60 + second;
+    let targetDate = new Date();
+    targetDate.setHours(new Date().getHours()+hour);
+    targetDate.setMinutes(new Date().getMinutes()+minute);
+    targetDate.setSeconds(new Date().getSeconds()+second);
+    timers.push({
+        name : currentName.value,
+        targetDate : targetDate,
+        isPaused : isPausedStart,
+        number : timerNumber,
+        isFinish : false,
+        totalSeconds : totalSeconds
+    })
+    timers2.push({
+        name : currentName.value,
+        hour : hour,
+        minute : minute,
+        second : second,
+        color : currentColor,
+        isBroke : false,
+        totalSeconds : totalSeconds
+    })
+    content.innerHTML += html;
+    content.querySelector(`.timer-box[data-number="${timerNumber}"]`).style.backgroundColor = currentColor;
+    if (isPausedStart) {
+        content.querySelector(`.pause[data-number="${timerNumber}"]`).style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+        content.querySelector(`.pause[data-number="${timerNumber}"]`).style.boxShadow = "0 0 10px orange";
+    }
+    else if (!isPausedStart) {
+        content.querySelector(`.play[data-number="${timerNumber}"]`).style.backgroundColor = "rgba(0, 255, 0, 0.3)";
+        content.querySelector(`.play[data-number="${timerNumber}"]`).style.boxShadow = "0 0 10px lime";
+    }
+    config.checked = false;
+    timerNumber += 1;
+    isSaved = false;
+    saveIt.removeAttribute('data-checked');
+    resetBoxes();
+}
+
+function double(data) {
+    if (data < 10) {
+        return `0${data}`
+    }
+    else 
+    {
+        return data
+    }
+}
+
+function contentClick(e) {
+    let target = e.target;
+    if (target.className == 'play') {
+        let timerNum = target.getAttribute('data-number');
+        timers.forEach(element=>{if(element.number==timerNum){
+            element.isPaused = false;
+            target.style.backgroundColor = "rgba(0, 255, 0, 0.3)";
+            target.style.boxShadow = "0 0 10px lime";
+            target.parentNode.querySelector('.pause').style += "background-color: #ddd";
+            target.parentNode.querySelector('.pause').style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+        }})
+    }
+    else if (target.className == 'pause') {
+        let timerNum = target.getAttribute('data-number');
+        timers.forEach(element=>{if(element.number==timerNum){
+            element.isPaused = true;
+            target.parentNode.querySelector('.play').style += "background-color: #ddd";
+            target.parentNode.querySelector('.play').style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+            target.style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+            target.style.boxShadow = "0 0 10px orange";
+        }})
+    }
+    else if (target.className == 'stop') {
+        isSaved = false;
+        saveIt.removeAttribute('data-checked');
+        let timerNum = target.getAttribute('data-number');
+        content.removeChild(content.querySelector(`.timer-box[data-number='${timerNum}']`));
+        timers.forEach(element=>{
+            if(element.number == timerNum)
+            {
+                element.isFinish = true;
+                timers2.forEach(x=>{
+                    if (element.name == x.name) {
+                        x.isBroke = true;
+                    }
+                })
+            }
+        })
+    }
+}
+
+function loop() {
+    timers.forEach(element=>{
+        if (element.isPaused==true && !element.isFinish) {
+            element.targetDate.setSeconds(element.targetDate.getSeconds()+1);
+        }
+        else if (element.isPaused==false && !element.isFinish) {
+            //let sure = (element.targetDate.getTime() - new Date().getTime())/1000;
+            element.totalSeconds = element.totalSeconds - 1;
+            let sure = element.totalSeconds;
+            if (sure>=0) {
+                let hours = Math.floor(sure/(60*60));
+                let minutes = Math.floor(sure/60)%60;
+                let seconds = Math.floor(sure%60);
+                let targetTimer = document.querySelector(`.timer-box[data-number="${element.number}"]`);
+                targetTimer.querySelector('.hour').innerHTML = double(hours);
+                targetTimer.querySelector('.minute').innerHTML = double(minutes);
+                targetTimer.querySelector('.second').innerHTML = double(seconds);
+            }
+            else {
+                let finishedTimer = content.querySelector(`.timer-box[data-number='${element.number}']`);
+                finishedTimer.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                finishedTimer.style.color = 'white';
+                element.isFinish = true;
+            }
+        }
+    })
+}
+
+function resetBoxes() {
+    currentName.value = '';
+    currentHour.value = 0;
+    currentMinute.value = 0;
+    currentSecond.value = 0;
+    defColorTo.checked = true;
+    currentColor = defColor.getAttribute('data-color');
+    pauseCf.style += "background-color: #ddd";
+    pauseCf.style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+    isPausedStart = false;
+}
+
+function resetAll() {
+    currentName.value = '';
+    currentHour.value = 0;
+    currentMinute.value = 0;
+    currentSecond.value = 0;
+    defColorTo.checked = true;
+    currentColor = defColor.getAttribute('data-color');
+    pauseCf.style += "background-color: #ddd";
+    pauseCf.style += "box-shadow: 0 0 10px rgba(0, 0, 0, 0.7)";
+    isPausedStart = false;
+    timers = [];
+    timers2 = [];
+    isSaved = false;
+    saveIt.removeAttribute('data-checked');
+    content.textContent = "";
+    timerNumber = 1;
+}
+function saveStatus() {
+    let sayac = 1;
+    if(!isSaved && confirm('Bu görünüm programınız olarak kaydedilecek.')) {
+        let num = localStorage.length
+        for(i = 1; i < num+1; i++) {
+            localStorage.removeItem(`timer${i}`)
+        }
+        timers2.forEach(element => {
+            try {
+                if (!element.isBroke) {
+                    let cTimer = [
+                        element.name,
+                        element.color,
+                        element.hour,
+                        element.minute,
+                        element.second
+                    ]
+                    localStorage.setItem(`timer${sayac}`, cTimer);
+                    sayac++;
+                }
+            }
+            catch(e) {
+            }
+        })
+        isSaved = true;
+        saveIt.setAttribute('data-checked', '');
+    }
+}
+function getSaved() {
+    if(confirm('Programınız getirilecek (Devam edilirse ekrandaki düzen sıfırlanır).')) {
+        resetAll()
+        let sNum = localStorage.length
+        for (let k = 1; k < sNum+1; k++) {
+            let currentTimerInfo = localStorage.getItem(`timer${k}`);
+            let currentTimer = currentTimerInfo.split(',');
+            currentTimer[2] = currentTimer[2] == '' ? 0:parseInt(currentTimer[2]);
+            currentTimer[3] = currentTimer[3] == '' ? 0:parseInt(currentTimer[3]);
+            currentTimer[4] = currentTimer[4] == '' ? 0:parseInt(currentTimer[4]);
+            let html = `
+                <div data-number="${timerNumber}" class="timer-box">
+                    <div title="${currentTimer[0]}" class="name">
+                        ${currentTimer[0].length<27?currentTimer[0]:currentTimer[0].substring(0,27)+"..."}
+                    </div>
+                    <div data-number="${timerNumber}" class="time">
+                        <span class="hour">${double(currentTimer[2])}</span>.<span class="minute">${double(currentTimer[3])}</span>.<span class="second">${double(currentTimer[4])}</span>
+                    </div>
+                    <div class="buttons">
+                        <button title="Bitir" data-number="${timerNumber}" class="stop">🗑️</button>
+                        <button title="Durdur" data-number="${timerNumber}" class="pause">⏸️</button>
+                        <button title="Devam" data-number="${timerNumber}" class="play">▶</button>
+                    </div>
+                </div>
+        `
+            let hour = parseInt(currentTimer[2]);
+            let minute = parseInt(currentTimer[3]);
+            let second = parseInt(currentTimer[4]);
+            let totalSeconds = hour*60*60 + minute*60 + second;
+            let targetDate = new Date();
+            targetDate.setHours(new Date().getHours()+hour);
+            targetDate.setMinutes(new Date().getMinutes()+minute);
+            targetDate.setSeconds(new Date().getSeconds()+second);
+            isPausedStart = true
+            timers.push({
+                name : currentTimer[0],
+                targetDate : targetDate,
+                isPaused : isPausedStart,
+                number : timerNumber,
+                isFinish : false,
+                totalSeconds : totalSeconds
+            })
+            timers2.push({
+                name : currentTimer[0],
+                hour : hour,
+                minute : minute,
+                second : second,
+                color : currentTimer[1],
+                isBroke : false
+            })
+            content.innerHTML += html;
+            content.querySelector(`.timer-box[data-number="${timerNumber}"]`).style.backgroundColor = currentTimer[1];
+            if (isPausedStart) {
+                content.querySelector(`.pause[data-number="${timerNumber}"]`).style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+                content.querySelector(`.pause[data-number="${timerNumber}"]`).style.boxShadow = "0 0 10px orange";
+            }
+            else if (!isPausedStart) {
+                content.querySelector(`.play[data-number="${timerNumber}"]`).style.backgroundColor = "rgba(0, 255, 0, 0.3)";
+                content.querySelector(`.play[data-number="${timerNumber}"]`).style.boxShadow = "0 0 10px lime";
+            }
+            timerNumber += 1;
+            resetBoxes();
+        }
+        isPausedStart = false;
+        isSaved = true;
+    }
+}
+    </script>
+</body>
+</html>

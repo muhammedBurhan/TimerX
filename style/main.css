@@ -1,0 +1,145 @@
+@import url(configBox.css);
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+html, body {
+    width: 100%;
+    height: 100%;
+}
+.main {
+    height: 100%;
+    position: relative;
+    min-height: 335px;
+}
+.content {
+    height: 80%;
+    display: flex;
+    column-gap: 15px;
+    padding: 25px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: auto;
+    row-gap: 15px;
+    background-color: #333;
+}
+.content .timer-box {
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    transition: background-color 300ms;
+    overflow: hidden;
+    color: white;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 1);
+}
+.timer-box .name {
+    padding: 5px 0;
+    font-size: 17px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    overflow: scroll;
+}
+.timer-box .time {
+    font-size: 30px;
+    padding: 10px 0 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.timer-box .buttons {
+    padding: 25px 75px 15px;
+    display: flex;
+    column-gap: 15px;
+}
+.timer-box .buttons button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    transition: background-color 100ms, transform 100ms;
+    background-color: #ddd;
+    border: none;
+}
+button.stop:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 10px red;
+}
+button.pause:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    box-shadow: 0 0 10px orange;
+}
+.timer-box .buttons button:active {
+    transform: scale(0.95);
+}
+button.play:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px lime;
+}
+.footer {
+    height: 20%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: black;
+    justify-content: space-between;
+    /*box-shadow: 0 0 15px black*/
+    font-size: 14px;
+}
+.footer .add-timer {
+    padding: 20px 45px;
+    border-radius: 5px;
+    transition: background-color 100ms, transform 100ms;
+    background-color: #999;
+    color: white;
+    max-width: 47%;
+    max-height: 80%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer .add-timer:hover {
+    background-color: #333;
+    box-shadow: 0 0 5px white;
+}
+.footer .add-timer:active {
+    transform: scale(0.95);
+}
+#config {
+    display: none;
+}
+#config:checked + .timer-config {
+    visibility: visible;
+    opacity: 1;
+}
+
+.footer .save-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    max-width: 47%;
+}
+.save-box > div {
+    width: 100%;
+    height: 45%;
+    background-color: purple;
+    border-radius: 5px;
+    color: white;
+    user-select: none;
+    transition: transform 100ms;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.save-box > div:hover {
+    transform: scale(1.025);
+}
+.save-box > div:active {
+    transform: scale(0.975);
+}
+.save-it[data-checked] {
+    background-color: green;
+}

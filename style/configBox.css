@@ -1,0 +1,133 @@
+.timer-config {
+    transition: opacity 500ms;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+}
+.timer-config input[type="radio"] {
+    display: none;
+}
+.timer-box-cf {
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    background-color: #DAF7A6;
+    position: relative;
+    transition: background-color 100ms;
+}
+.timer-box-cf .name-cf {
+    padding: 45px 0 0 0;
+}
+.name-cf input {
+    text-align: center;
+    font-size: 17px;
+    border: 1px solid #999;
+    border-radius: 3px;
+}
+.timer-box-cf .time-cf {
+    padding: 10px 0 5px;
+}
+.timer-box-cf .time-cf input {
+    width: 75px;
+    font-size: 30px;
+    font-family: 'Courier New', Courier, monospace;
+}
+.timer-box-cf .buttons-cf {
+    padding: 25px 90px 15px;
+    display: flex;
+    column-gap: 15px;
+}
+.timer-box-cf .buttons-cf button {
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    background-color: #ddd;
+    transition: background-color 100ms, transform 100ms;
+    border: none;
+}
+button.stop-cf:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+    box-shadow: 0 0 10px red;
+}
+button.pause-cf:hover {
+    background-color: rgba(255, 255, 0, 0.3);
+    box-shadow: 0 0 10px orange;
+}
+.timer-box-cf .buttons-cf button:active {
+    transform: scale(0.95);
+}
+button.play-cf:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px green;
+}
+.timer-box-cf .timer-colors {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: flex;
+    column-gap: 5px;
+}
+.timer-colors label {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+}
+.timer-colors label:nth-child(1) {
+    background-color: #DAF7A6;
+}
+.timer-colors label:nth-child(2) {
+    background-color: #FAB723;
+}
+.timer-colors label:nth-child(3) {
+    background-color: #FF5733;
+}
+.timer-colors label:nth-child(4) {
+    background-color: #B50027;
+}
+.timer-colors label:nth-child(5) {
+    background-color: #900C3F;
+}
+#c-1:checked ~ .timer-box-cf {
+    background-color: #DAF7A6;
+}
+#c-2:checked ~ .timer-box-cf {
+    background-color: #FAB723;
+}
+#c-3:checked ~ .timer-box-cf {
+    background-color: #FF5733;
+}
+#c-4:checked ~ .timer-box-cf {
+    background-color: #B50027;
+}
+#c-5:checked ~ .timer-box-cf {
+    background-color: #900C3F;
+}
+.config-close {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    border-radius: 50%;
+    border: 1px solid black;
+    cursor: pointer;
+    transition: transform 100ms;
+}
+.config-close:hover {
+    transform: scale(1.3);
+}
+.config-close:active {
+    transform: scale(1.25);
+}

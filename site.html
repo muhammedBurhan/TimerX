@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>TimerX</title>
+    <link rel="stylesheet" href="style/main.css">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="main">
+        <div class="content">
+        </div>
+        <div class="footer">
+            <div class="save-box">
+                <div class="get-save">
+                    Programımı Getir
+                </div>
+                <div class="save-it">
+                    Görünümü Kaydet
+                </div>
+            </div>
+            <label class="add-timer" for="config">➕ Zamanlayıcı Ekle</label>
+        </div>
+        <input id="config" type="checkbox">
+        <div class="timer-config">
+            <input name="color" id="c-1" type="radio">
+            <input name="color" id="c-2" type="radio">
+            <input name="color" id="c-3" type="radio">
+            <input name="color" id="c-4" type="radio">
+            <input name="color" id="c-5" type="radio">
+            <div class="timer-box-cf">
+                <div class="name-cf">
+                    <input placeholder="Timer Name" value="" class="current-name" type="text">
+                </div>
+                <div class="time-cf">
+                    <input title="saat" max="18" min="0" value="0" class="hour" type="number">
+                    <input title="dakika" max="59" min="0" value="0" class="minute" type="number">
+                    <input title="saniye" max="59" min="0" value="0" class="second" type="number">
+                </div>
+                <div class="buttons-cf">
+                    <button title="Reset" class="stop-cf reset">🗑️</button>
+                    <button title="Hemen Başlamasın" class="pause-cf">⏸️</button>
+                    <button title="Başla!" class="play-cf add-button">▶</button>
+                </div>
+                <div class="timer-colors">
+                    <label data-class="color" data-color="#DAF7A6" for="c-1" class="color-1"></label>
+                    <label data-class="color" data-color="#FAB723" for="c-2" class="color-2"></label>
+                    <label data-class="color" data-color="#FF5733" for="c-3" class="color-3"></label>
+                    <label data-class="color" data-color="#B50027" for="c-4" class="color-4"></label>
+                    <label data-class="color" data-color="#900C3F" for="c-5" class="color-5"></label>
+                </div>
+                <label for="config" class="config-close"></label>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
