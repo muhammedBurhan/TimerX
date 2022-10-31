@@ -113,6 +113,11 @@ button.play:hover {
     opacity: 1;
 }
 
+.footer .footerLogo {
+    height: 80%;
+    user-select: none;
+}
+
 .footer .save-box {
     display: flex;
     flex-direction: column;
@@ -123,7 +128,7 @@ button.play:hover {
 .save-box > div {
     width: 100%;
     height: 45%;
-    background-color: purple;
+    background-color: rgb(113, 0, 234);
     border-radius: 5px;
     color: white;
     user-select: none;
